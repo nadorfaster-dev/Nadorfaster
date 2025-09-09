@@ -26,10 +26,12 @@
     .menu-btn{width:42px;height:42px;border-radius:10px;background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer}
     .search{width:42px;height:42px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center}
 
+    /* Tabs */
     .tabs{display:flex; gap:10px; padding:0 18px 10px; overflow:auto;}
     .tab{padding:8px 12px; border-radius:12px; background:var(--glass); color:var(--muted); font-size:14px; white-space:nowrap}
     .tab.active{background:linear-gradient(90deg,var(--accent), #ff3b6b); color:#fff; font-weight:600;}
 
+    /* Grid of cards */
     .news-grid{display:grid; grid-template-columns:1fr; gap:var(--gap); padding:12px 12px 96px;}
     .card{background:var(--card); border-radius:var(--radius); overflow:hidden; box-shadow:0 12px 30px rgba(0,0,0,0.6); transition:transform .18s;}
     .card:hover{transform:translateY(-6px)}
@@ -39,15 +41,18 @@
     .title{margin:10px 0 8px; font-size:18px; line-height:1.12}
     .meta{color:var(--muted); font-size:13px; display:flex; gap:8px; align-items:center}
 
+    /* Big featured */
     .featured{position:relative; border-radius:18px; overflow:hidden}
     .featured .card-media{height:320px; filter:contrast(1.05) saturate(1.05)}
     .featured .overlay{position:absolute; left:0; right:0; bottom:0; padding:18px; background:linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 60%); color:#fff}
     .featured .title{font-size:26px}
 
+    /* bottom nav */
     nav.bottom-nav{position:fixed; left:12px; right:12px; bottom:12px; height:64px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:24px; display:flex; align-items:center; justify-content:space-around; box-shadow:0 10px 30px rgba(0,0,0,0.6)}
     .nav-item{font-size:12px; color:var(--muted); display:flex; flex-direction:column; align-items:center; gap:6px}
     .nav-item.active{color:var(--accent); font-weight:600}
 
+    /* responsive */
     @media(min-width:800px){
       .news-grid{grid-template-columns:repeat(2,1fr); padding:18px 36px 120px;}
       header{padding:20px 36px}
@@ -82,6 +87,7 @@
   </div>
 
   <main>
+    <!-- Featured article -->
     <section style="padding:0 12px;">
       <article class="card featured">
         <div class="card-media" style="background-image:url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1400&q=60')"></div>
@@ -93,7 +99,9 @@
       </article>
     </section>
 
+    <!-- Grid -->
     <section class="news-grid" id="newsGrid">
+      <!-- sample cards -->
       <article class="card">
         <div class="card-media" style="background-image:url('https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1200&q=60')"></div>
         <div class="card-body">
@@ -102,6 +110,7 @@
           <div class="meta">بواسطة محمد • 2 دقيقة</div>
         </div>
       </article>
+
       <article class="card">
         <div class="card-media" style="background-image:url('https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=1200&q=60')"></div>
         <div class="card-body">
@@ -110,6 +119,7 @@
           <div class="meta">بواسطة فاطنة • 4 دقائق</div>
         </div>
       </article>
+
       <article class="card">
         <div class="card-media" style="background-image:url('https://images.unsplash.com/photo-1522199710521-72d69614c702?auto=format&fit=crop&w=1200&q=60')"></div>
         <div class="card-body">
@@ -118,6 +128,7 @@
           <div class="meta">بواسطة سمير • 3 دقائق</div>
         </div>
       </article>
+
       <article class="card">
         <div class="card-media" style="background-image:url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1200&q=60')"></div>
         <div class="card-body">
@@ -129,6 +140,7 @@
     </section>
   </main>
 
+  <!-- Bottom navigation -->
   <nav class="bottom-nav" role="navigation">
     <div class="nav-item active"><div>🏠</div>الرئيسية</div>
     <div class="nav-item"><div>📺</div>بث مباشر</div>
@@ -136,20 +148,18 @@
     <div class="nav-item"><div>✉️</div>اتصل بنا</div>
   </nav>
 
+  <!-- scripts -->
   <script>
-    // ===== إدارة التبويبات (Tabs) =====
-    const tabs = document.querySelectorAll('.tabs .tab');
-    tabs.forEach(tab => {
-      const activateTab = () => {
-        tabs.forEach(t => t.classList.remove('active'));
+    // Simple tab switch (front-end only)
+    document.querySelectorAll('.tabs .tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tabs .tab').forEach(t=>t.classList.remove('active'));
         tab.classList.add('active');
-        console.log("التبويب النشط: " + tab.textContent);
-      };
-      tab.addEventListener('click', activateTab);
-      tab.addEventListener('touchstart', activateTab);
+        // you can add filtering logic here to show category-specific posts
+      });
     });
 
-    // ===== إضافة أخبار جديدة ديناميكياً =====
+    // Sample dynamic add more posts (simulate loading)
     const newsGrid = document.getElementById('newsGrid');
     function addFakeCard() {
       const art = document.createElement('article');
@@ -163,22 +173,22 @@
         </div>`;
       newsGrid.appendChild(art);
     }
-    setTimeout(addFakeCard, 2000);
 
-    // ===== تسجيل Service Worker =====
+    // register service worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/service-worker.js')
-        .then(() => console.log('تم تسجيل Service Worker'))
-        .catch(err => console.log('فشل تسجيل Service Worker', err));
+        .then(() => console.log('SW registered'))
+        .catch(err => console.log('SW failed', err));
     }
 
-    // ===== نافذة تثبيت PWA =====
+    // prompt install for PWA (simple)
     let deferredPrompt;
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
+      // show a simple prompt (you can replace with a button)
       setTimeout(()=> {
-        if (confirm('هل تريد إضافة Nador Faster إلى الشاشة الرئيسية؟')) {
+        if (confirm('Add Nador Faster to your home screen?')) {
           deferredPrompt.prompt();
           deferredPrompt.userChoice.then(choice => {
             deferredPrompt = null;
@@ -187,12 +197,9 @@
       }, 1500);
     });
 
-    // ===== زر القائمة =====
-    const menuBtn = document.getElementById('menuBtn');
-    const toggleMenu = () => alert('تم الضغط على زر القائمة!');
-    menuBtn.addEventListener('click', toggleMenu);
-    menuBtn.addEventListener('touchstart', toggleMenu);
+    // for demo: add one fake card after 2s
+    setTimeout(addFakeCard, 2000);
   </script>
 
 </body>
-      </html>
+</html>
